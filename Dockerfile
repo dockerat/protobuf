@@ -237,7 +237,7 @@ RUN mkdir -p /dart-protobuf \
 FROM alpine:${ALPINE_VERSION} as packer
 
 COPY --from=protoc /out/ /out/
-COPY --from=go /out/ /out/
+COPY --from=golang /out/ /out/
 COPY --from=rust /out/ /out/
 COPY --from=swift /protoc-gen-swift /out/protoc-gen-swift
 COPY --from=dart /out/ /out/
