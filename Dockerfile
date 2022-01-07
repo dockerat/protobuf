@@ -285,7 +285,7 @@ RUN set -ex \
     \
     \
     \
-    && apk add --no-cache node libstdc++ \
+    && apk add --no-cache npm libstdc++ \
     \
     \
     \
