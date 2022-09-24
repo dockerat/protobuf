@@ -1,4 +1,3 @@
-ARG ALPINE_VERSION=3.16
 ARG DART_PROTOBUF_VERSION=2.0.1
 ARG GOOGLE_API_VERSION=d9b32e92fa57c37e5af0dc03badfe741170c5849
 ARG GO_VERSION=1.19.1
@@ -21,14 +20,12 @@ ARG PROTOC_GEN_GQL_VERSION=0.8.0
 ARG PROTOC_GEN_LINT_VERSION=0.2.1
 ARG PROTOC_GEN_VALIDATE_VERSION=0.6.1
 ARG RUST_PROTOBUF_VERSION=2.22.1
-ARG RUST_VERSION=1.50.0
-ARG SWIFT_VERSION=5.2.5
 ARG TS_PROTOC_GEN_VERSION=0.14.0
 ARG UPX_VERSION=3.96
 
 
 
-FROM alpine:${ALPINE_VERSION} as protoc
+FROM alpine:3.16.2 as protoc
 
 RUN apk add --no-cache build-base curl automake autoconf libtool git zlib-dev linux-headers cmake ninja
 RUN mkdir -p /out
@@ -70,7 +67,7 @@ RUN mkdir -p /grpc-web \
 
 
 
-FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} as golang
+FROM golang:1.19.1-alpine3.16 as golang
 
 RUN apk add --no-cache build-base curl git
 
@@ -181,7 +178,7 @@ RUN mkdir -p ${GOPATH}/src/github.com/googleapis/googleapis \
 
 
 
-FROM rust:${RUST_VERSION}-alpine as rust
+FROM rust:1.64.0-alpine3.16 as rust
 
 RUN apk add --no-cache curl
 RUN rustup target add x86_64-unknown-linux-musl
@@ -201,7 +198,7 @@ RUN mkdir -p /grpc-rust \
 
 
 
-FROM swift:${SWIFT_VERSION} as swift
+FROM swift:5.7.0 as swift
 
 RUN apt-get update
 RUN apt-get install -y unzip patchelf libnghttp2-dev curl libssl-dev zlib1g-dev
@@ -233,7 +230,7 @@ RUN mkdir -p /dart-protobuf \
 
 
 
-FROM alpine:${ALPINE_VERSION} as packer
+FROM alpine:3.16.2 as packer
 
 COPY --from=protoc /out/ /out/
 COPY --from=golang /out/ /out/
@@ -265,7 +262,7 @@ RUN apk add --no-cache curl \
 
 
 # 打包真正的镜像
-FROM ccr.ccs.tencentyun.com/storezhang/alpine:3.16.2
+FROM storezhang/alpine:3.16.2
 
 
 LABEL author="storezhang<华寅>" \
