@@ -196,7 +196,7 @@ RUN mkdir -p /grpc-rust \
 
 
 
-FROM swift:5.2.5 as swift
+FROM swift:5.7.0 as swift
 
 RUN apt-get update
 RUN apt-get install -y unzip patchelf libnghttp2-dev curl libssl-dev zlib1g-dev
