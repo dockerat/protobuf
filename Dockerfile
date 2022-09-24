@@ -1,4 +1,4 @@
-ARG DART_PROTOBUF_VERSION=2.0.1
+ARG DART_PROTOBUF_VERSION=2.1.0
 ARG GOOGLE_API_VERSION=d9b32e92fa57c37e5af0dc03badfe741170c5849
 ARG GRPC_GATEWAY_VERSION=2.3.0
 ARG GRPC_JAVA_VERSION=1.36.0
@@ -222,7 +222,7 @@ ARG DART_PROTOBUF_VERSION
 RUN mkdir -p /dart-protobuf \
     && curl -sSL https://api.github.com/repos/google/protobuf.dart/tarball/protobuf-v${DART_PROTOBUF_VERSION} | tar xz --strip 1 -C /dart-protobuf \
     && cd /dart-protobuf/protoc_plugin \
-    && flutter pub install \
+    && pub install \
     && dart2native --verbose bin/protoc_plugin.dart -o protoc_plugin \
     && install -D /dart-protobuf/protoc_plugin/protoc_plugin /out/usr/bin/protoc-gen-dart
 
