@@ -1,6 +1,5 @@
 ARG ALPINE_VERSION=3.16
 ARG DART_PROTOBUF_VERSION=2.0.1
-ARG DART_VERSION=2.18.1
 ARG GOOGLE_API_VERSION=d9b32e92fa57c37e5af0dc03badfe741170c5849
 ARG GO_VERSION=1.19.1
 ARG GRPC_GATEWAY_VERSION=2.3.0
@@ -219,7 +218,7 @@ RUN mkdir -p /grpc-swift \
 
 
 
-FROM google/dart:${DART_VERSION} as dart
+FROM dart:2.18.1 as dart
 
 RUN apt-get update
 RUN apt-get install -y musl-tools curl
