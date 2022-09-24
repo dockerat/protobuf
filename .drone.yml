@@ -11,13 +11,6 @@ steps:
   - name: 代码
     image: ccr.ccs.tencentyun.com/dronestock/git
 
-  - name: 编译
-    image: ccr.ccs.tencentyun.com/pangum/drone
-    volumes:
-      - name: go
-        path: /var/lib/go
-    settings:
-      output: maven
 
   - name: 发布
     image: ccr.ccs.tencentyun.com/dronestock/docker
@@ -42,9 +35,6 @@ steps:
 
 
 volumes:
-  - name: go
-    host:
-      path: /var/lib/cache/go
   - name: docker
     host:
       path: /var/lib/cache/docker
