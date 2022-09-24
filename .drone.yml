@@ -1,0 +1,50 @@
+kind: pipeline
+type: docker
+name: Maven插件
+
+
+clone:
+  disable: true
+
+
+steps:
+  - name: 代码
+    image: ccr.ccs.tencentyun.com/dronestock/git
+
+  - name: 编译
+    image: ccr.ccs.tencentyun.com/pangum/drone
+    volumes:
+      - name: go
+        path: /var/lib/go
+    settings:
+      output: maven
+
+  - name: 发布
+    image: ccr.ccs.tencentyun.com/dronestock/docker
+    privileged: true
+    volumes:
+      - name: cache
+        path: /var/lib/docker
+    environment:
+      PASSWORD_DOCKER:
+        from_secret: token_docker
+      PASSWORD_CCR:
+        from_secret: password_tencentyun_ccr
+    settings:
+      repository: dronestock/maven
+      registries:
+        - username: dronestock
+          password: $${PASSWORD_DOCKER}
+        - hostname: ccr.ccs.tencentyun.com
+          username: "160290688"
+          password: $${PASSWORD_CCR}
+          required: true
+
+
+volumes:
+  - name: go
+    host:
+      path: /var/lib/cache/go
+  - name: docker
+    host:
+      path: /var/lib/cache/docker

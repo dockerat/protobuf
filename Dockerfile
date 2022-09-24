@@ -1,8 +1,8 @@
-ARG ALPINE_VERSION=3.14
+ARG ALPINE_VERSION=3.16
 ARG DART_PROTOBUF_VERSION=2.0.1
-ARG DART_VERSION=2.13.4
+ARG DART_VERSION=2.18.1
 ARG GOOGLE_API_VERSION=d9b32e92fa57c37e5af0dc03badfe741170c5849
-ARG GO_VERSION=1.17.2
+ARG GO_VERSION=1.19.1
 ARG GRPC_GATEWAY_VERSION=2.3.0
 ARG GRPC_JAVA_VERSION=1.36.0
 ARG GRPC_RUST_VERSION=0.8.2
@@ -266,12 +266,14 @@ RUN apk add --no-cache curl \
 
 
 # 打包真正的镜像
-FROM storezhang/alpine
+FROM ccr.ccs.tencentyun.com/storezhang/alpine:3.16.2
 
 
-MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2022-01-08"
-LABEL Description="Protobuf镜像，集成常见语言及插件"
+LABEL author="storezhang<华寅>" \
+    email="storezhang@gmail.com" \
+    qq="160290688" \
+    wechat="storezhang" \
+    description="Protobuf镜像，集成常见语言及插件"
 
 
 

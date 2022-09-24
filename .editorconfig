@@ -14,5 +14,5 @@ indent_style = tab
 [*.mod]
 end_of_line = crlf
 
-[*.{yml, yaml}]
+[*.{yml, yaml, md}]
 indent_size = 2

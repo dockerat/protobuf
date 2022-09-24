@@ -1,5 +1,17 @@
 # Protobuf
 
+[![编译状态](https://github.ruijc.com:20443/api/badges/dockerat/protobuf/status.svg)](https://github.ruijc.com:20443/dockerat/protobuf)
+[![Golang质量](https://goreportcard.com/badge/github.com/dockerat/protobuf)](https://goreportcard.com/report/github.com/dockerat/protobuf)
+![版本](https://img.shields.io/github/go-mod/go-version/dockerat/protobuf)
+![仓库大小](https://img.shields.io/github/repo-size/dockerat/protobuf)
+![Docker镜像版本](https://img.shields.io/docker/v/dockerat/protobuf)
+![Docker镜像大小](https://img.shields.io/docker/image-size/dockerat/protobuf)
+![最后提交](https://img.shields.io/github/last-commit/dockerat/protobuf)
+![授权协议](https://img.shields.io/github/license/dockerat/protobuf)
+![语言个数](https://img.shields.io/github/languages/count/dockerat/protobuf)
+![最佳语言](https://img.shields.io/github/languages/top/dockerat/protobuf)
+![星星个数](https://img.shields.io/github/stars/dockerat/protobuf?style=social)
+
 `Drone`持续集成`Protobuf`插件，功能有
 
 - 集成各种常见的语言
@@ -46,3 +58,13 @@
 - Rust
 - Swift
 - Typescript
+
+## 捐助
+
+![支持宝](https://github.com/storezhang/donate/raw/master/alipay-small.jpg)
+![微信](https://github.com/storezhang/donate/raw/master/weipay-small.jpg)
+
+## 感谢Jetbrains
+
+本项目通过`Jetbrains开源许可IDE`编写源代码，特此感谢
+[![Jetbrains图标](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)](https://www.jetbrains.com/?from=dockerat/protobuf)
