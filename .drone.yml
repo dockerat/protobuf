@@ -24,9 +24,10 @@ steps:
       PASSWORD_CCR:
         from_secret: password_tencentyun_ccr
     settings:
-      repository: dronestock/maven
+      repository: storezhang/protobuf
+      tag: 0.0.1
       registries:
-        - username: dronestock
+        - username: storezhang
           password: $${PASSWORD_DOCKER}
         - hostname: ccr.ccs.tencentyun.com
           username: "160290688"
