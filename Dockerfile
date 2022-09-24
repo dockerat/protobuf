@@ -3,7 +3,7 @@ ARG GOOGLE_API_VERSION=d9b32e92fa57c37e5af0dc03badfe741170c5849
 ARG GRPC_GATEWAY_VERSION=2.3.0
 ARG GRPC_JAVA_VERSION=1.36.0
 ARG GRPC_RUST_VERSION=0.8.2
-ARG GRPC_SWIFT_VERSION=1.10.0
+ARG GRPC_SWIFT_VERSION=1.0.0
 ARG GRPC_VERSION=1.36.4
 ARG GRPC_WEB_VERSION=1.2.1
 ARG PROTOBUF_C_VERSION=1.3.3
@@ -196,7 +196,7 @@ RUN mkdir -p /grpc-rust \
 
 
 
-FROM swift:5.7.0 as swift
+FROM swift:5.2.5 as swift
 
 RUN apt-get update
 RUN apt-get install -y unzip patchelf libnghttp2-dev curl libssl-dev zlib1g-dev
