@@ -222,7 +222,7 @@ ARG DART_PROTOBUF_VERSION
 RUN mkdir -p /dart-protobuf \
     && curl -sSL https://api.github.com/repos/google/protobuf.dart/tarball/protobuf-v${DART_PROTOBUF_VERSION} | tar xz --strip 1 -C /dart-protobuf \
     && cd /dart-protobuf/protoc_plugin \
-    && pub install \
+    && flutter pub install \
     && dart2native --verbose bin/protoc_plugin.dart -o protoc_plugin \
     && install -D /dart-protobuf/protoc_plugin/protoc_plugin /out/usr/bin/protoc-gen-dart
 
