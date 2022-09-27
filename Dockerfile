@@ -1,15 +1,11 @@
-ARG ALPINE_VERSION=3.14
-ARG DART_PROTOBUF_VERSION=2.0.1
-ARG DART_VERSION=2.13.4
+ARG DART_PROTOBUF_VERSION=2.1.0
 ARG GOOGLE_API_VERSION=d9b32e92fa57c37e5af0dc03badfe741170c5849
-ARG GO_VERSION=1.17.2
 ARG GRPC_GATEWAY_VERSION=2.3.0
 ARG GRPC_JAVA_VERSION=1.36.0
 ARG GRPC_RUST_VERSION=0.8.2
-ARG GRPC_SWIFT_VERSION=1.0.0
+ARG GRPC_SWIFT_VERSION=1.10.0
 ARG GRPC_VERSION=1.36.4
 ARG GRPC_WEB_VERSION=1.2.1
-ARG NODE_VERSION=14.17.5
 ARG PROTOBUF_C_VERSION=1.3.3
 ARG PROTOC_GEN_DOC_VERSION=1.4.1
 ARG PROTOC_GEN_FIELDMASK_VERSION=0.4.5
@@ -22,14 +18,12 @@ ARG PROTOC_GEN_GQL_VERSION=0.8.0
 ARG PROTOC_GEN_LINT_VERSION=0.2.1
 ARG PROTOC_GEN_VALIDATE_VERSION=0.6.1
 ARG RUST_PROTOBUF_VERSION=2.22.1
-ARG RUST_VERSION=1.50.0
-ARG SWIFT_VERSION=5.2.5
 ARG TS_PROTOC_GEN_VERSION=0.14.0
 ARG UPX_VERSION=3.96
 
 
 
-FROM alpine:${ALPINE_VERSION} as protoc
+FROM storezhang/alpine:3.16.2 as protoc
 
 RUN apk add --no-cache build-base curl automake autoconf libtool git zlib-dev linux-headers cmake ninja
 RUN mkdir -p /out
@@ -43,7 +37,7 @@ RUN git clone --recursive --depth=1 -b v${GRPC_VERSION} https://github.com/grpc/
     && cmake --build . --target plugins \
     && cmake --build . --target install \
     && DEST_DIR=/out cmake --build . --target install
-
+RUN sleep 10m && ls /out
 ARG PROTOBUF_C_VERSION
 RUN mkdir -p /protobuf-c \
     && curl -sSL https://api.github.com/repos/protobuf-c/protobuf-c/tarball/v${PROTOBUF_C_VERSION} | tar xz --strip 1 -C /protobuf-c \
@@ -71,7 +65,7 @@ RUN mkdir -p /grpc-web \
 
 
 
-FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} as golang
+FROM golang:1.19.1-alpine3.16 as golang
 
 RUN apk add --no-cache build-base curl git
 
@@ -182,7 +176,7 @@ RUN mkdir -p ${GOPATH}/src/github.com/googleapis/googleapis \
 
 
 
-FROM rust:${RUST_VERSION}-alpine as rust
+FROM rust:1.64.0-alpine3.16 as rust
 
 RUN apk add --no-cache curl
 RUN rustup target add x86_64-unknown-linux-musl
@@ -202,10 +196,10 @@ RUN mkdir -p /grpc-rust \
 
 
 
-FROM swift:${SWIFT_VERSION} as swift
+FROM swift:5.7.0 as swift
 
 RUN apt-get update
-RUN apt-get install -y unzip patchelf libnghttp2-dev curl libssl-dev zlib1g-dev
+RUN apt-get install -y unzip patchelf libnghttp2-dev curl libssl-dev zlib1g-dev make
 
 ARG GRPC_SWIFT_VERSION
 RUN mkdir -p /grpc-swift \
@@ -219,7 +213,7 @@ RUN mkdir -p /grpc-swift \
 
 
 
-FROM google/dart:${DART_VERSION} as dart
+FROM dart:2.18.1 as dart
 
 RUN apt-get update
 RUN apt-get install -y musl-tools curl
@@ -228,13 +222,13 @@ ARG DART_PROTOBUF_VERSION
 RUN mkdir -p /dart-protobuf \
     && curl -sSL https://api.github.com/repos/google/protobuf.dart/tarball/protobuf-v${DART_PROTOBUF_VERSION} | tar xz --strip 1 -C /dart-protobuf \
     && cd /dart-protobuf/protoc_plugin \
-    && pub install \
-    && dart2native --verbose bin/protoc_plugin.dart -o protoc_plugin \
+    && dart pub install \
+    && dart compile exe --verbose bin/protoc_plugin.dart -o protoc_plugin \
     && install -D /dart-protobuf/protoc_plugin/protoc_plugin /out/usr/bin/protoc-gen-dart
 
 
 
-FROM alpine:${ALPINE_VERSION} as packer
+FROM storezhang/alpine:3.16.2 as packer
 
 COPY --from=protoc /out/ /out/
 COPY --from=golang /out/ /out/
@@ -266,12 +260,14 @@ RUN apk add --no-cache curl \
 
 
 # 打包真正的镜像
-FROM storezhang/alpine
+FROM storezhang/alpine:3.16.2
 
 
-MAINTAINER storezhang "storezhang@gmail.com"
-LABEL architecture="AMD64/x86_64" version="latest" build="2022-01-08"
-LABEL Description="Protobuf镜像，集成常见语言及插件"
+LABEL author="storezhang<华寅>" \
+    email="storezhang@gmail.com" \
+    qq="160290688" \
+    wechat="storezhang" \
+    description="Protobuf镜像，集成常见语言及插件"
 
 
 
