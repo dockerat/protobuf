@@ -37,7 +37,7 @@ RUN git clone --recursive --depth=1 -b v${GRPC_VERSION} https://github.com/grpc/
     && cmake --build . --target plugins \
     && cmake --build . --target install \
     && DEST_DIR=/out cmake --build . --target install
-RUN ls /out && sleep 10m
+RUN ls /out
 ARG PROTOBUF_C_VERSION
 RUN mkdir -p /protobuf-c \
     && curl -sSL https://api.github.com/repos/protobuf-c/protobuf-c/tarball/v${PROTOBUF_C_VERSION} | tar xz --strip 1 -C /protobuf-c \
